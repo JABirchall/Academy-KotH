@@ -1,0 +1,399 @@
+// Academy-KotH Server description.ext
+
+onLoadName = "King of the Hill - KotH";
+author = "BrezZZz";
+onLoadMission="www.Academy-KotH.de";
+loadScreen =  "images\loadingscreen.paa";
+
+
+class Header
+{
+	gameType=TDM;
+	minPlayers=1;
+	maxPlayers=90;
+};
+
+
+onLoadIntroTime = 0;
+onLoadMissionTime = 0;
+enableDebugConsole = 1;
+respawn = "BASE";
+respawndelay = 25;
+joinUnassigned = 0;
+disabledAI = 1;
+disableChannels[]={2,3};
+saving = 0;
+
+corpseLimit = 5;
+corpseRemovalMinTime = 30;
+corpseRemovalMaxTime = 60;
+
+wreckLimit = 5;
+wreckRemovalMinTime = 30;
+wreckRemovalMaxTime = 60;
+
+// Infistar
+#include "infiStar\infiSTAR_AdminMenu.hpp"
+
+// Player-Shop
+#include "player-shop\Common.hpp"
+#include "player-shop\academy_gui_weap.hpp"
+
+class academycfgMain
+{
+    #include "player-shop\academy_cfg_Traders.hpp"
+};
+
+// Briefing erstellen und Skippen
+briefing = 0; //script
+
+class CfgFunctions
+{
+	class myTag
+	{
+		class myCategory
+		{
+			class skipBriefing
+			{
+				file = "client-scripts\academy_skipBriefing.sqf";
+				preInit = 1;
+			};
+		};
+	};
+};
+
+// classes Rundenende
+class CfgDebriefing
+{  
+	class End1
+	{
+		title = "Round is over";
+		subtitle = "";
+		description = "Team Blue has taken over the City and is now King of the Hill!";
+		pictureBackground = "";
+		picture = "b_inf";
+		pictureColor[] = {0.0,0.3,0.6,1};
+	};
+	class End2
+	{
+		title = "Round is over";
+		subtitle = "";
+		description = "Team Red has taken over the City and is now King of the Hill!";
+		pictureBackground = "";
+		picture = "b_inf";
+		pictureColor[] = {0.0,0.3,0.6,1};
+	};
+	class End3
+	{
+		title = "Round is over";
+		subtitle = "";
+		description = "Team Green has taken over the City and is now King of the Hill!";
+		pictureBackground = "";
+		picture = "b_inf";
+		pictureColor[] = {0.0,0.3,0.6,1};
+	};
+};
+
+// classes Sounds
+class CfgSounds
+{
+    sounds[] = {};
+    class WelcomeSound
+    {
+    name="WelcomeSound";
+    sound[]={sounds\WelcomeSound.ogg,1,1};
+    titles[] = {};
+    };
+	class EndSound
+    {
+    name="EndSound";
+    sound[]={sounds\kothend.ogg,0.9,1};
+    titles[] = {};
+    };
+};
+
+// HP-Bar text
+class Sd_RscText {
+	x = 0;
+	y = 0;
+	h = 0.037;
+	w = 0.3;
+	type = 0;
+	style = ST_CENTER;
+	shadow = 1;
+	colorShadow[] = {0, 0, 0, 0.5};
+	font = "PuristaMedium";
+	SizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+	text = "";
+	colorText[] = {1, 1, 1, 1.0};
+	colorBackground[] = {0, 0, 0, 0};
+	linespacing = 1;
+	tooltipColorText[] = {1,1,1,1};
+	tooltipColorBox[] = {1,1,1,1};
+	tooltipColorShade[] = {0,0,0,0.65};
+};
+
+// HP-Bar Progressbar
+class sd_RscProgress 
+{
+
+	type = 8;
+	style = 0;
+	x = 0.344;
+	y = 0.619;
+	w = 0.313726;
+	h = 0.0261438;
+	texture = "";
+	shadow = 2;
+	colorFrame[] = {0,0,0,0.2};
+	colorBackground[] = {0,0,0,0.7};
+	colorBar[] = {0,1,0,0.5};
+};
+
+// Class Picture Transparent
+class RscPictureTrans
+{
+	type = CT_STATIC;
+	idc = -1;
+	style = 48;
+	colorBackground[] = {0, 0, 0, 0};
+	colorText[] = {1, 1, 1, 1.0};
+	font = "PuristaMedium"; //Typeface
+	sizeEx = 0;
+};
+
+// Classes RscTitels für die Hud + HP-Bar + shop
+class RscTitles
+{
+	#include "player-shop\academy_gui_weap.hpp"
+	
+	class statsScreen
+	{    
+		idd = -1;
+		duration = 1e+1000;
+		fadeIn = 0;
+		fadeOut = 0;
+		name = "";
+		onLoad = "uiNamespace setVariable ['statsDisplay', _this select 0];";
+		
+		class controls
+		{			
+
+			class logo : RscPictureTrans
+			{
+				text="images\academy.paa";
+				x = 0.87 * safezoneW + safezoneX;
+                y = 0.78 * safezoneH + safezoneY; //83
+                w = 0.1 * safezoneW;
+                h = 0.16 * safezoneH;
+			};	
+			class statsxp
+			{    
+				idc = 1000;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.84 * safezoneW + safezoneX;
+                y = 0.82 * safezoneH + safezoneY;
+                w = 0.16 * safezoneW;
+                h = 0.04 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.04;
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+			};  
+			class statskills
+			{    
+				idc = 1001;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.84 * safezoneW + safezoneX;
+                y = 0.85 * safezoneH + safezoneY;
+                w = 0.16 * safezoneW;
+                h = 0.04 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.04;
+				colorBackground[] = {0,0,0,0};
+				colorText[] = {1,1,1,1};
+			};
+			class statsblu
+			{    
+				idc = 1002;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.85 * safezoneW + safezoneX;
+                y = 0.94 * safezoneH + safezoneY;
+                w = 0.04 * safezoneW;
+                h = 0.04 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.07;
+				colorBackground[] = {0,0,1,0.5};
+				colorText[] = {1,1,1,1};
+			};
+			class statsblucount
+			{    
+				idc = 1005;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.85 * safezoneW + safezoneX;
+				y = 0.98 * safezoneH + safezoneY;
+				w = 0.04 * safezoneW;
+				h = 0.02 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.04;
+				colorBackground[] = {0,0,0,0.2};
+				colorText[] = {1,1,1,1};
+				shadow = 2;
+			};
+			class playersblue : RscPicture
+			{
+				text="images\player.paa";
+				x = 0.85 * safezoneW + safezoneX;
+                y = 0.98 * safezoneH + safezoneY;
+                w = 0.01 * safezoneW;
+                h = 0.02 * safezoneH;
+			};
+			class statsred
+			{    
+				idc = 1003;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.9 * safezoneW + safezoneX;
+                y = 0.94 * safezoneH + safezoneY;
+                w = 0.04 * safezoneW;
+                h = 0.04 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.07;
+				colorBackground[] = {1,0,0,0.5};
+				colorText[] = {1,1,1,1};
+			};
+			class statsredcount
+			{    
+				idc = 1006;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.9 * safezoneW + safezoneX;
+				y = 0.98 * safezoneH + safezoneY;
+				w = 0.04 * safezoneW;
+				h = 0.02 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.04;
+				colorBackground[] = {0,0,0,0.2};
+				colorText[] = {1,1,1,1};
+				shadow = 2;
+			};
+			class playersred : RscPicture
+			{
+				text="images\player.paa";
+				x = 0.9 * safezoneW + safezoneX;
+                y = 0.98 * safezoneH + safezoneY;
+                w = 0.01 * safezoneW;
+                h = 0.02 * safezoneH;
+			};
+			class statsind
+			{    
+				idc = 1004;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.95 * safezoneW + safezoneX;
+                y = 0.94 * safezoneH + safezoneY;
+                w = 0.04 * safezoneW;
+                h = 0.04 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.07;
+				colorBackground[] = {0,1,0,0.5};
+				colorText[] = {1,1,1,1};
+			};
+			class statsindcount
+			{    
+				idc = 1007;
+				type = 0;
+				style = 2;
+				
+				text = "0";
+				x = 0.95 * safezoneW + safezoneX;
+				y = 0.98 * safezoneH + safezoneY;
+				w = 0.04 * safezoneW;
+				h = 0.02 * safezoneH;
+				
+				font = "PuristaMedium";
+				sizeEx = 0.04;
+				colorBackground[] = {0,0,0,0.2};
+				colorText[] = {1,1,1,1};
+				shadow = 2;
+			};
+			class playersind : RscPicture
+			{
+				text="images\player.paa";
+				x = 0.95 * safezoneW + safezoneX;
+                y = 0.98 * safezoneH + safezoneY;
+                w = 0.01 * safezoneW;
+                h = 0.02 * safezoneH;
+			};			
+		};
+	};
+	class lifebar
+	{    
+		idd = 38500;
+		movingEnable = 0;
+		fadeIn = 0;
+		duration = 10e10;
+		fadeOut = 0;
+		name = "lifebar";
+		onLoad = "uiNamespace setVariable ['lifebar',_this select 0]";
+		objects[] = {};
+		
+		class controls
+		{			
+			class healthBar: sd_RscProgress
+			{
+				idc = 45013;
+				x = 0.85 * safezoneW + safezoneX;
+				y = 0.91 * safezoneH + safezoneY;
+				w = 0.14 * safezoneW;
+				h = 0.02 * safezoneH;
+			};
+			class healthTitle: sd_RscText
+			{
+				idc = -1;
+				text = "HEALTH";
+				x = 0.85 * safezoneW + safezoneX;
+				y = 0.89 * safezoneH + safezoneY;
+				w = 0.14 * safezoneW;
+				h = 0.02 * safezoneH;
+				colorBackground[] = {0,0,0,0.2};
+				//colorBackground[] = {0.075,0.09,0.106,1};
+				
+			};
+			class healthText: sd_RscText
+			{
+				idc = 45014;
+				text = "";
+				x = 0.91 * safezoneW + safezoneX;
+				y = 0.91 * safezoneH + safezoneY;
+				w = 0.025 * safezoneW;
+				h = 0.02 * safezoneH;
+			};
+		};	
+	};
+};
